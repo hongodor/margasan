@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="small-2 large-4 columns">
+    <p class="subheader">
+      ...
+    </p>
+    <%= link_to 'New project', new_project_path, class: 'button' %>
+  </div>
+</div>
+<div class="row">
+  <ul class="project-list">
+    <% @projects.each do |project| %>
+        <li>
+          <div class="project-list_item">
+            <div class="info">
+              <div class="callout secondary">
+                <h4 class="text-center"><%= project.name %></h4>
+                <h6 class="text-center"><%= project.author %></h6>
+                <p><%= project.description.truncate 40 %></p>
+                <div class="username">
+                  <p>Username</p>
+                </div>
+                <div class="actions">
+                  <%= link_to 'Show', project, class: 'tiny button' %>
+                  <%= link_to 'Edit', edit_project_path(project), class: 'tiny secondary button' %>
+                  <%= link_to 'Destroy', project, method: :delete, class: 'tiny alert button', data: {confirm: 'Are you sure?'} %></div>
+              </div>
+            </div>
+          </div>
+        </li>
+    <% end %>
+  </ul>
+</div>
