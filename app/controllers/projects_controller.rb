@@ -1,19 +1,21 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:index, :show]
 
   def index
     @projects = Project.all
   end
 
   def show
+
   end
 
   def new
-    @project = Project.new
+    @project = current_user.projects.new
   end
 
   def create
-    @project = Project.new(project_params)
+    @project = current_user.projects.new(project_params)
     if @project.save
       flash[:success] = "Project was succesfully created!"
       redirect_to @project

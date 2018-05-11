@@ -22,7 +22,7 @@
                 <div class="actions">
                   <%= link_to 'Show', project, class: 'tiny button' %>
                   <%= link_to 'Edit', edit_project_path(project), class: 'tiny secondary button' %>
-                  <%= link_to 'Destroy', project, method: :delete, class: 'tiny alert button', data: {confirm: 'Are you sure?'} %></div>
+                  <%= button_to 'Destroy', project, method: :delete %></div>
               </div>
             </div>
           </div>
