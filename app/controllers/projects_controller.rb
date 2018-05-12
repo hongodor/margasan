@@ -7,7 +7,8 @@ class ProjectsController < ApplicationController
   end
 
   def show
-
+    @chapters = @project.chapters
+    @chapter = Chapter.new
   end
 
   def new

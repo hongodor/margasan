@@ -4,6 +4,55 @@
     <p><%= @project.description %></p>
     <%= link_to 'Edit', edit_project_path(@project) %>
   </div>
+  <div class="small-6 large-6 columns">
+    <%= form_for([@project, @chapter]) do |f| %>
+        <% if @chapter.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@chapter.errors.count, "error") %> prohibited this project from being saved:</h2>
 
+              <ul>
+                <% @chapter.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
+        <div class="field">
+          <%= f.label :name, "Создать новую часть " %><br>
+          <%= f.text_field :name, placeholder: 'Введите название части' %>
+        </div>
+        <div class="field">
+          <%= f.label :chapter_file, "Загрузить часть" %><br>
+          <%= f.hidden_field :chapter_file, value: @chapter.cached_chapter_file_data %>
+          <%= f.file_field :chapter_file %>
+        </div>
+        <div class="actions">
+          <%= f.submit 'Загрузить', class: "button"  %>
+        </div>
+    <% end %>
+  </div>
+</div>
+<div class="row">
+  <div class="small-6 large-centered columns">
+    <p class="lead text-center">Chapters</p>
+    <table class="hover">
+      <% @project.chapters.each do |chapter| %>
+          <tr>
+            <td><h3><%= link_to chapter.name, chapter  %></h3></td>
+            <td><div class="callout secondary small"><%= chapter.filename %>
+              <br>Status: <%= chapter.status.capitalize %></div></td>
+            <td><div class="callout secondary"><%= chapter.completed_phrases_count %>/<%= chapter.phrases_count %></div></td>
+            <td><%= link_to 'Generate', chapter_generate_path(chapter), class: "button" %></td>
+            <td><%= link_to 'Download', chapter_download_path(chapter), target: "_blank",  class: "button" %></td>
+            <% if chapter.opened? %>
+                <td><%= button_to 'Close', chapter_set_status_path(chapter), params: { status: :closed }, class: "warning button" %></td>
+            <% else %>
+                <td><%= button_to 'Open', chapter_set_status_path(chapter), params: { status: :opened }, class: "success button" %></td>
+            <% end %>
+            <td><%= link_to 'Delete', chapter, method: :delete, data: {confirm: 'Are you sure?'}, class: "alert button"  %></td>
+          </tr>
+      <% end %>
+    </table>
+  </div>
 </div>
 

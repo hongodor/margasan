@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_10_165021) do
+ActiveRecord::Schema.define(version: 2018_05_11_141950) do
+
+  create_table "chapters", force: :cascade do |t|
+    t.string "name"
+    t.integer "status", default: 0
+    t.integer "project_id"
+    t.integer "user_id"
+    t.text "chapter_file_data"
+    t.string "filename"
+    t.integer "completed_phrases_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_chapters_on_project_id"
+    t.index ["user_id"], name: "index_chapters_on_user_id"
+  end
 
   create_table "projects", force: :cascade do |t|
     t.string "name"

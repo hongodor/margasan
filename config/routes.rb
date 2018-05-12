@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-
-  get 'chapters/show'
   devise_for :users
   root 'projects#index'
   resources :projects, shallow: true do
