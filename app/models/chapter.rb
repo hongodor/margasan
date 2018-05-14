@@ -3,12 +3,10 @@ class Chapter < ApplicationRecord
   belongs_to :project
   belongs_to :user
 
-  validates :name, :chapter_file, presence: true
-  before_create(:set_default_status, { if: :new_record? })
+  validates :name, presence: true
 
+  has_one_attached :chapter_file
 
   private
-  def set_default_status
-    self.status ||= :not_started
-  end
+
 end

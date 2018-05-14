@@ -1,17 +1,14 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+chapter_one:
   name: MyString
-  status: 
+  status: 0
   project: one
-  user: one
-  chapter_file_data: MyText
+  user: user
   completed_phrases_count: 1
-
-two:
+chapter_two:
   name: MyString
-  status: 
+  status: 0
   project: two
-  user: two
-  chapter_file_data: MyText
+  user: another
   completed_phrases_count: 1

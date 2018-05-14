@@ -1,9 +1,9 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show, :update]
 
   def index
-    @projects = Project.all
+    @projects = Project.order(:created_at).page params[:page]
   end
 
   def show
@@ -34,7 +34,7 @@ class ProjectsController < ApplicationController
       flash[:success] = "Project was successfully updated!"
       redirect_to @project
     else
-      render 'edit'
+      redirect_to @project
     end
   end
 
