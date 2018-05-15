@@ -8,7 +8,6 @@ class ProjectsController < ApplicationController
 
   def show
     @chapters = @project.chapters
-    @chapter = Chapter.new
   end
 
   def new
@@ -27,9 +26,11 @@ class ProjectsController < ApplicationController
   end
 
   def edit
+    authorize @project
   end
 
   def update
+    authorize @project
     if @project.update(project_params)
       flash[:success] = "Project was successfully updated!"
       redirect_to @project
@@ -39,6 +40,7 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
+    authorize @project
     @project.destroy
     flash[:success] = "Project was successfully destroyed."
     redirect_to projects_url

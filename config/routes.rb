@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   root 'projects#index'
   resources :projects, shallow: true do
     resources :chapters
-
   end
   resources :users, only: [:index]
 

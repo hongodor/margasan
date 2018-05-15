@@ -10,6 +10,7 @@ class ChaptersController < ApplicationController
     @chapter = current_user.chapters.new(chapter_params)
     @chapter.project_id = params[:project_id]
     @chapter.filename = @chapter.chapter_file.filename
+    authorize @chapter
     if @chapter.save
       flash[:success] = "Chapter was successfully created"
       redirect_to @chapter
@@ -21,6 +22,7 @@ class ChaptersController < ApplicationController
   end
 
   def destroy
+    authorize @chapter
     @chapter.chapter_file.purge
     @chapter.destroy
     flash[:alert] = "Chapter was successfully deleted"
