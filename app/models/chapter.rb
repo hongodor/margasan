@@ -1,5 +1,6 @@
 class Chapter < ApplicationRecord
   enum status: [:opened, :active, :closed]
+  has_many :phrases, dependent: :destroy
   belongs_to :project
   belongs_to :user
 

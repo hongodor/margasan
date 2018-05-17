@@ -5,6 +5,10 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+require 'database_cleaner'
+
+DatabaseCleaner.clean_with(:truncation)
+
 storage_files = Dir.glob( File.join(Rails.root, "storage", "*") )
 File.delete(*storage_files)
 
@@ -31,4 +35,10 @@ end
                  status: rand(3),
                  project: Project.all.sample,
                  user: User.all.sample)
+end
+100.times do
+  Phrase.create(original: Faker::Lorem.sentence,
+                translated: Faker::Lorem.sentence,
+                chapter: Chapter.all.sample )
+
 end

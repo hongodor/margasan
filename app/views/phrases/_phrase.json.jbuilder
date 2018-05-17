@@ -1,0 +1,1 @@
+json.extract! phrase, :id, :original, :translated, :created_at

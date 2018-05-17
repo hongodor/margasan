@@ -3,7 +3,10 @@ class ChaptersController < ApplicationController
   before_action :authenticate_user!, except: [:show]
 
   def show
-
+    respond_to do |format|
+      format.html
+      format.json { render json: @chapter }
+    end
   end
 
   def create
