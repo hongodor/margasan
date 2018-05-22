@@ -7,14 +7,14 @@ class ProjectPolicy
   end
 
   def edit?
-    user.admin? or project.user == user
+    user.admin? || project.user == user
   end
 
   def update?
-    user.admin? or project.user == user
+    user.admin? || project.user == user
   end
 
   def destroy?
-    user.admin? or project.user == user
+    user.admin? || project.user == user
   end
 end

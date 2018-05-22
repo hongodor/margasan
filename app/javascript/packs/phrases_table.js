@@ -6,15 +6,20 @@
 // All it does is render <div>Hello Vue</div> at the bottom of the page.
 import TurbolinksAdapter from 'vue-turbolinks';
 import Vue from 'vue'
-import App from '../app.vue'
+import App from '../components/phrases.vue'
+import axios from 'axios'
 
 Vue.use(TurbolinksAdapter)
 
 document.addEventListener('DOMContentLoaded', () => {
+  axios.defaults.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
   const el = document.body.appendChild(document.createElement('hello'))
+  const element = document.getElementById("chapter-id")
+  const props = JSON.parse(element.getAttribute('data'))
   const app = new Vue({
     el,
-    render: h => h(App)
+    mixin: [TurbolinksAdapter],
+    render: h => h(App,{ props } )
   })
 
   console.log(app)

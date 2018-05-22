@@ -1,46 +1,39 @@
-<div class="row">
-  <div class="small-6 large-6 columns">
-    <h3><%= @project.author %> : <%= @project.name %></h3>
-    <p><%= @project.description %></p>
-    <%= link_to 'Edit', edit_project_path(@project) %>
-  </div>
-
-  <div class="row">
-    <div class="">
-      <p class="lead text-center">Chapters</p>
-      <table class="hover">
-        <% @project.chapters.each do |chapter| %>
-            <tr>
-              <td><h3><%= link_to chapter.name, chapter  %></h3></td>
-              <td><div class="callout secondary small"><%= chapter.filename %>
-                <br>Status: <%= chapter.status.capitalize %></div></td>
-              <td><div class="callout secondary"><%= chapter.completed_phrases_count %>/<%= chapter.phrases_count %></div></td>
-              <% if chapter.active? %>
-
-              <% else %>
-
-              <% end %>
-              <td><%= button_to 'Delete', chapter, method: :delete, data: {confirm: 'Are you sure?'}, class: "alert button"  %></td>
-            </tr>
-        <% end %>
-      </table>
-    </div>
-  </div>
-  <div class="">
-    <%= form_for([@project, @project.chapters.build]) do |f| %>
-        <div class="field">
-          <%= f.label :name, "Создать новую часть " %><br>
-          <%= f.text_field :name, placeholder: 'Введите название части', required: true %>
-        </div>
-        <div class="field">
-          <%= f.label :chapter_file, "Загрузить часть", direct_upload: true %><br>
-          <%= f.file_field :chapter_file, required: true %>
-        </div>
-        <div class="actions">
-          <%= f.submit 'Загрузить', class: "button"  %>
-        </div>
-    <% end %>
-  </div>
+<div>
+  <h3><%= @project.author %> : <%= @project.name %></h3>
+  <p><%= @project.description %></p>
+  <%= link_to 'Edit', edit_project_path(@project) %>
 </div>
+
+<div class="row">
+  <h1>Chapters</h1>
+  <table class="hover">
+    <% @project.chapters.each do |chapter| %>
+        <tr>
+          <td><h3><%= link_to chapter.name, chapter %></h3></td>
+          <td>
+            <%= chapter.filename %>
+            <br>Status: <%= chapter.status.capitalize %>
+          </td>
+          <td><%= chapter.completed_phrases_count %>/<%= chapter.phrases_count %></td>
+          <td><%= link_to 'Delete', chapter, method: :delete, data: {confirm: 'Are you sure?'} %></td>
+        </tr>
+    <% end %>
+  </table>
+</div>
+
+  <%= form_for([@project, @project.chapters.build]) do |f| %>
+      <div class="field">
+        <%= f.label :name, "Создать новую часть " %><br>
+        <%= f.text_field :name, placeholder: 'Введите название части', required: true %>
+      </div>
+      <div class="field">
+        <%= f.label :chapter_file, "Загрузить часть", direct_upload: true %><br>
+        <%= f.file_field :chapter_file, required: true %>
+      </div>
+      <div class="actions">
+        <%= f.submit 'Загрузить', class: "button" %>
+      </div>
+  <% end %>
+
 
 

@@ -10,8 +10,4 @@ class ProjectTest < ActiveSupport::TestCase
      assert  @project.valid?
   end
 
-  test "description should be max 140 chars" do
-    @project.description = "a" * 141
-    assert_not @project.valid?
-  end
 end

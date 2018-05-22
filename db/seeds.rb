@@ -9,9 +9,6 @@ require 'database_cleaner'
 
 DatabaseCleaner.clean_with(:truncation)
 
-storage_files = Dir.glob( File.join(Rails.root, "storage", "*") )
-File.delete(*storage_files)
-
 User.create!(username: "test",
              email: "admin@test.com",
              password: "64014011",
@@ -23,22 +20,28 @@ User.create!(username: "test",
                password: Faker::Internet.password)
 end
 
-6.times do
-  Project.create(name: Faker::Book.title,
+2.times do
+  Project.create!(name: Faker::Book.title,
                  description: Faker::Lorem.paragraph,
                  author: Faker::Book.author,
                  user: User.all.sample)
 end
-20.times do
-  Chapter.create(name: Faker::Book.title,
+5.times do
+  Chapter.create!(name: Faker::Book.title,
                  filename: Faker::File.file_name,
                  status: rand(3),
                  project: Project.all.sample,
                  user: User.all.sample)
 end
 100.times do
-  Phrase.create(original: Faker::Lorem.sentence,
+  Phrase.create!(original: Faker::Lorem.sentence,
                 translated: Faker::Lorem.sentence,
-                chapter: Chapter.all.sample )
+                chapter: Chapter.all.sample)
 
+end
+300.times do
+  Option.create!(content: Faker::Lorem.paragraph,
+                check: [0,1].sample,
+                user:  User.all.sample,
+                phrase: Phrase.all.sample)
 end

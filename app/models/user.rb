@@ -3,6 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   has_many :projects
   has_many :chapters
+  has_many :options
   enum role: [:user, :admin]
 
   validates :username, presence: true

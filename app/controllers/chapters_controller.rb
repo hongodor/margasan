@@ -1,12 +1,8 @@
 class ChaptersController < ApplicationController
-  before_action :set_chapter, only: [:show, :destroy]
   before_action :authenticate_user!, except: [:show]
 
   def show
-    respond_to do |format|
-      format.html
-      format.json { render json: @chapter }
-    end
+    @chapter = Chapter.includes(phrases: :options).find(params[:id])
   end
 
   def create
@@ -25,17 +21,15 @@ class ChaptersController < ApplicationController
   end
 
   def destroy
+    @chapter = Chapter.find(params[:id])
     authorize @chapter
     @chapter.chapter_file.purge
     @chapter.destroy
-    flash[:alert] = "Chapter was successfully deleted"
+    flash[:success] = "Chapter was successfully deleted"
     redirect_to @chapter.project
   end
 
   private
-  def set_chapter
-    @chapter = Chapter.find(params[:id])
-  end
 
   def chapter_params
     params.require(:chapter).permit(:name, :chapter_file)

@@ -11,6 +11,6 @@ class ChapterPolicy
   end
 
   def destroy?
-    user.admin? or chapter.user == user
+    user.admin? || chapter.user == user
   end
 end
