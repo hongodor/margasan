@@ -9,21 +9,20 @@ import Vue from 'vue'
 import App from '../components/phrases.vue'
 import axios from 'axios'
 
-Vue.use(TurbolinksAdapter)
+
+Vue.use(TurbolinksAdapter);
 
 document.addEventListener('DOMContentLoaded', () => {
-  axios.defaults.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-  const el = document.body.appendChild(document.createElement('hello'))
-  const element = document.getElementById("chapter-id")
-  const props = JSON.parse(element.getAttribute('data'))
+  axios.defaults.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  const el = document.body.appendChild(document.createElement('hello'));
+  const element = document.getElementById("chapter-id");
+  const props = JSON.parse(element.getAttribute('data'));
   const app = new Vue({
     el,
     mixin: [TurbolinksAdapter],
     render: h => h(App,{ props } )
   })
-
-  console.log(app)
-})
+});
 
 
 // The above code uses Vue without the compiler, which means you cannot

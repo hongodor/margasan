@@ -9,7 +9,7 @@
 // import * as ActiveStorage from "activestorage"
 // ActiveStorage.start()
 import Rails from 'rails-ujs';
-Rails.start()
+Rails.start();
 import "./application.css.scss";
 console.log("Hello world from webpacker!");
 

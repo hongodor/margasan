@@ -31,6 +31,7 @@
 
 <script>
 import axios from 'axios'
+import { sendChapter, setCallback } from 'client/chapters'
 
 export default {
     name: 'phrase',
@@ -73,6 +74,7 @@ export default {
         }
     }
 }
+
 </script>
 
 <style scoped>
