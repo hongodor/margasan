@@ -7,7 +7,7 @@ class ChapterPolicy
   end
 
   def create?
-    @chapter.project.user == user
+    chapter.project.user == user
   end
 
   def destroy?

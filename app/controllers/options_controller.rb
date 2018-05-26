@@ -5,7 +5,6 @@ class OptionsController < ApplicationController
     option = current_user.options.new(option_params)
     option.phrase_id = params[:phrase_id]
     option.save
-    head 200
     #if option.save
     #  render json: option
     #else

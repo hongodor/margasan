@@ -17,8 +17,9 @@
         <td>{{ phrase.original }}</td>
         <td>{{ phrase.translated }}
           <input  v-model="phrase.option">
-          <button @click="addOption(phrase.id, index)">Send</button>
+          <button @click="sendOption(phrase.id, index)">Send</button>
           <ul v-for='(option, idx) in phrase.options'>
+            <li>{{option.id}}</li>
             <li>{{option.content}} <button @click="pickTranslated(option.id, phrase.id)">Pick</button></li>
           </ul>
         </td>
@@ -31,7 +32,13 @@
 
 <script>
 import axios from 'axios'
-import { sendChapter, setCallback } from 'client/chapters'
+import cable from "actioncable";
+
+let consumer;
+
+if (!consumer) {
+    consumer = cable.createConsumer();
+}
 
 export default {
     name: 'phrase',
@@ -42,7 +49,14 @@ export default {
       }
     },
     created() {
+        let that = this;
         this.fetchPhrase();
+        consumer.subscriptions.create({ channel: "ChaptersChannel",  chapter_id: this.chapter.id }, {
+            received ({option}) {
+                let obj = JSON.parse(option);
+                that.addOption(obj)
+            },
+        });
     },
     methods: {
         fetchPhrase() {
@@ -50,17 +64,14 @@ export default {
                 .then((res) => { return res.json() })
                 .then((res) => { this.phrases = res })
         },
-        addOption(phraseId, index) {
-            console.log(this.phrases[index].option)
+        addOption(obj) {
+            this.phrases.find(x => x.id === obj.phrase_id).options.push(obj);
+        },
+        sendOption(phraseId, index) {
             axios.post('/options', {
                 content: this.phrases[index].option, phrase_id: phraseId
-            }).then((res) => {
-                this.phrases[index].options.push(res.data)
-                this.phrases[index].option = ''
-            }).catch((error) => {
-                this.errors = error.response.statusText
-                console.log(this.errors)
-            })
+            });
+            this.phrases[index].option = ''
         },
         pickTranslated(id, phraseId) {
             axios.post('/phrases', {
@@ -68,7 +79,7 @@ export default {
             }).then((res) => {
                 this.phrases.find(x => x.id === phraseId).translated = res.data.content
             }).catch((error) => {
-                this.errors = error.response.statusText
+                this.errors = error.response.statusText;
                 console.log(this.errors)
             })
         }
