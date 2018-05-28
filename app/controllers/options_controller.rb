@@ -1,9 +1,11 @@
 class OptionsController < ApplicationController
   before_action :authenticate_user!
+  rescue_from Pundit::NotAuthorizedError, with: :json_user_not_authorized
 
   def create
     option = current_user.options.new(option_params)
     option.phrase_id = params[:phrase_id]
+    option.author = current_user.username
     option.save
     #if option.save
     #  render json: option
@@ -12,8 +14,20 @@ class OptionsController < ApplicationController
     #end
   end
 
+  def update
+    option = Option.find(params[:id])
+    #authorize option
+    if option.update(option_params)
+      head 200
+    else
+      head 403
+    end
+
+  end
+
   def destroy
     option = Option.find(params[:id])
+    authorize option
     option.destroy
   end
 

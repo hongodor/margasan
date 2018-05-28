@@ -9,8 +9,11 @@ import Vue from 'vue'
 import App from '../components/phrases.vue'
 import axios from 'axios'
 
-
 Vue.use(TurbolinksAdapter);
+
+Vue.component('modal', {
+    template: '#modal-template'
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   axios.defaults.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');

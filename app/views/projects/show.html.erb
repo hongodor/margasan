@@ -9,7 +9,7 @@
   <table class="hover">
     <% @project.chapters.each do |chapter| %>
         <tr>
-          <td><h3><%= link_to chapter.name, chapter %></h3></td>
+          <td><h3><%= link_to chapter.name, chapter, class: 'link' %></h3></td>
           <td>
             <%= chapter.filename %>
             <br>Status: <%= chapter.status.capitalize %>

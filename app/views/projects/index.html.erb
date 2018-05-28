@@ -15,9 +15,9 @@
                   <p><%= project.user.username %></p>
                 </div>
                 <div class="actions">
-                  <%= link_to 'Show', project %>
-                  <%= link_to 'Edit', edit_project_path(project) %>
-                  <%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }  %>
+                  <%= link_to 'Show', project, class: 'link' %>
+                  <%= link_to 'Edit', edit_project_path(project), class: 'link' %>
+                  <%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }, class: 'link'  %>
                 </div>
             </div>
           </li>

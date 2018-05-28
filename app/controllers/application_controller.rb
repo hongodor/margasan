@@ -16,4 +16,8 @@ class ApplicationController < ActionController::Base
     flash[:error] = "You are not authorized to perform this action."
     redirect_to(request.referrer || root_path)
   end
+
+  def json_user_not_authorized
+    head 403
+  end
 end

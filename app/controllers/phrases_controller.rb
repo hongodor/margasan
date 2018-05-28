@@ -5,18 +5,13 @@ class PhrasesController < ApplicationController
   def update
     phrase = Phrase.find(params[:phrase_id])
     option = Option.find(params[:option_id])
-    phrase.translated = option.content
-
     authorize phrase
+    phrase.translated = option.content
     if phrase.save
       render json: option
     else
       render json: { errors: phrase.errors.full_messages }
     end
-  end
-
-  def json_user_not_authorized
-    head 403
   end
 
   private

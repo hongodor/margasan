@@ -9,11 +9,14 @@ require 'database_cleaner'
 
 DatabaseCleaner.clean_with(:truncation)
 
-User.create!(username: "test",
+User.create!(username: "admin",
              email: "admin@test.com",
              password: "64014011",
              role: 1)
-
+User.create!(username: "user",
+             email: "user@test.com",
+             password: "64014011",
+             role: 0)
 5.times do
   User.create!(username: Faker::Internet.user_name,
                email: Faker::Internet.email,
@@ -34,14 +37,15 @@ end
                  user: User.all.sample)
 end
 100.times do
-  Phrase.create!(original: Faker::Lorem.sentence,
-                translated: Faker::Lorem.sentence,
+  Phrase.create!(original: Faker::Lorem.sentences.join("\n"),
+                translated: "",
                 chapter: Chapter.all.sample)
-
 end
 300.times do
-  Option.create!(content: Faker::Lorem.paragraph,
+  user = User.all.sample
+  Option.create!(content: Faker::Lorem.paragraphs.join("\n"),
                 check: [0,1].sample,
-                user:  User.all.sample,
+                user: user,
+                author: user.username,
                 phrase: Phrase.all.sample)
 end

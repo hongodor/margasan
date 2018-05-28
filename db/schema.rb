@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 2018_05_17_060449) do
   create_table "options", force: :cascade do |t|
     t.text "content"
     t.boolean "check"
+    t.string "author"
     t.integer "user_id"
     t.integer "phrase_id"
     t.datetime "created_at", null: false

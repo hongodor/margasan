@@ -7,7 +7,7 @@ class OptionPolicy
   end
 
   def destroy?
-    option.user == user
+    user.admin? || option.user == user
   end
 
 end

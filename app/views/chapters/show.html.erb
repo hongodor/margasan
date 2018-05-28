@@ -1,7 +1,8 @@
-<div class=""><%= link_to 'Назад', @chapter.project %></div>
+<div class="subheader"><%= link_to @chapter.project.name, @chapter.project, class: 'head-link' %></div>
 <%= javascript_pack_tag 'phrases_table' %>
 <% props = {
-    chapter: @chapter
+    chapter: @chapter,
+    current_user: current_user
 }.to_json
 %>
 <div id="chapter-id" data="<%= props %>"></div>

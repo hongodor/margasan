@@ -7,6 +7,6 @@ class PhrasePolicy
   end
 
   def update?
-    phrase.chapter.user == user
+    user.admin? || user == phrase.chapter.user
   end
 end
