@@ -28,7 +28,20 @@
             border-bottom: 1px solid #8b8b8b;
             position: relative;
             .information {
-
+              margin: 5px 10px;
+                .pick-action {
+                  border-radius: 3px;
+                  color: #e5eaff;;
+                  text-decoration: none;
+                  background: greenyellow;
+                  box-sizing: border-box;
+                }
+                .delete-action {
+                  text-decoration: none;
+                  background: #e5eaff;
+                  margin-top: 5px;
+                  cursor: pointer;
+                }
             }
           }
         }
@@ -93,12 +106,12 @@
                     {{ line }} <br>
                   </div>
                   <div class="information">
+
                     <template v-if="chapter.user_id === current_user.id">
-                      <a @click="pickTranslated(option.id, phrase.id)">Pick</a>
+                      <a @click="pickTranslated(option.id, phrase.id)" class="pick-action">Pick</a>
                     </template>
                     <template v-if="chapter.user_id === current_user.id || option.user_id === current_user.id">
-                      <a @click="editOption(option.id, index, index2)">Edit</a>
-                      <a @click="deleteOption(option.id, index, index2)">Delete</a>
+                      <a @click="deleteOption(option.id, index, index2)" class="delete-action">Delete</a>
                     </template>
                     <a v-bind:href="'/users/'+option.user_id">{{ option.author }}</a>
                   </div>
@@ -165,17 +178,31 @@ export default {
             }).length
             // check if option already exist
             if (opts === 0) {
+                console.log('option not exist')
                 this.phrases.find(x => x.id === obj.phrase_id).options.push(obj);
             } else {
+                console.log('option already exist')
                 this.phrases.find(x => x.id === obj.phrase_id).options.find(x => x.user_id === obj.user_id).content = obj.content
             }
         },
         sendOption(phraseId, index) {
-            
-            axios.post('/options', {
-                content: this.phrases[index].option, phrase_id: phraseId
-            });
-            this.phrases[index].option = ''
+            let thisUser = this.current_user.id
+            let opts = this.phrases[index].options.filter(function (item) {
+                return item.user_id === thisUser
+            })
+            // check if option already exist
+            // then options contain option from current user call editOption
+            // else create new option
+            if (opts.length > 0) {
+                let option = this.phrases[index].options.find(x => x.user_id === thisUser)
+                this.editOption(option.id, index)
+            } else {
+                axios.post('/options', {
+                    content: this.phrases[index].option, phrase_id: phraseId
+                });
+                this.phrases[index].option = ''
+            }
+
         },
         deleteOption(optionId, index, index2) {
             axios.delete('/options/'+optionId, {
@@ -196,8 +223,7 @@ export default {
                 this.message(error.response.status, error.response.statusText)
             })
         },
-        editOption(optionId, index, index2) {
-            console.log(optionId, index, index2)
+        editOption(optionId, index) {
             axios.put('/options/'+optionId, {
                 content: this.phrases[index].option
             }).then((res) => {
