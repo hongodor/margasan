@@ -11,5 +11,4 @@
 import Rails from 'rails-ujs';
 Rails.start();
 import "./application.css.scss";
-console.log("Hello world from webpacker!");
-
+console.log("Hello world from Dota 2!");

@@ -29,12 +29,20 @@ end
                  author: Faker::Book.author,
                  user: User.all.sample)
 end
+=begin
+FileUtils.rm_f Dir.glob("#{Rails.root}/test/files/*")
 5.times do
-  Chapter.create!(name: Faker::Book.title,
-                 filename: Faker::File.file_name,
+  file = Faker::File.file_name('',nil,nil,'')
+  File.new("#{Rails.root}/test/files/#{file}", "w")
+  chapter = Chapter.create!(name: Faker::Book.title,
+                 filename: file,
                  status: rand(3),
                  project: Project.all.sample,
                  user: User.all.sample)
+  chapter.chapter_file.attach(io: File.open("#{Rails.root}/test/files/#{file}"),
+                              filename: file,
+                              content_type: 'application/pdf')
+
 end
 100.times do
   Phrase.create!(original: Faker::Lorem.sentences.join("\n"),
@@ -49,3 +57,4 @@ end
                 author: user.username,
                 phrase: Phrase.all.sample)
 end
+=end

@@ -4,36 +4,40 @@
   <%= link_to 'Edit', edit_project_path(@project) %>
 </div>
 
+<%== pagy_nav(@pagy) %>
 <div class="row">
   <h1>Chapters</h1>
   <table class="hover">
-    <% @project.chapters.each do |chapter| %>
-        <tr>
-          <td><h3><%= link_to chapter.name, chapter, class: 'link' %></h3></td>
-          <td>
-            <%= chapter.filename %>
-            <br>Status: <%= chapter.status.capitalize %>
-          </td>
-          <td><%= chapter.completed_phrases_count %>/<%= chapter.phrases_count %></td>
-          <td><%= link_to 'Delete', chapter, method: :delete, data: {confirm: 'Are you sure?'} %></td>
-        </tr>
+    <% @chapters.each do |chapter| %>
+      <tr>
+        <td><h3><%= link_to chapter.name, chapter, class: 'link' %></h3></td>
+        <td>
+          <%= chapter.filename %>
+          <br>Status: <%= chapter.status.capitalize %>
+        </td>
+        <td><%= link_to("Generate", generate_path(chapter)) %></td>
+        <td><%= chapter.completed_phrases_count %>/<%= chapter.phrases_count %></td>
+        <% if chapter.chapter_file.attached? %>
+          <td><%= link_to("Download #{chapter.filename}", rails_blob_path(chapter.chapter_file, disposition: "attachment")) %></td>
+        <% end %>
+        <td><%= link_to 'Delete', chapter, method: :delete, data: {confirm: 'Are you sure?'} %></td>
+      </tr>
     <% end %>
   </table>
 </div>
-
-  <%= form_for([@project, @project.chapters.build]) do |f| %>
-      <div class="field">
-        <%= f.label :name, "Создать новую часть " %><br>
-        <%= f.text_field :name, placeholder: 'Введите название части', required: true %>
-      </div>
-      <div class="field">
-        <%= f.label :chapter_file, "Загрузить часть", direct_upload: true %><br>
-        <%= f.file_field :chapter_file, required: true %>
-      </div>
-      <div class="actions">
-        <%= f.submit 'Загрузить', class: "button" %>
-      </div>
-  <% end %>
-
-
+<%= form_for([@project, @project.chapters.build]) do |f| %>
+<!--
+<div class="field">
+    <%# f.label :name, "Создать новую часть " %><br>
+    <%# f.text_field :name, placeholder: 'Введите название части' %>
+</div>
+-->
+  <div class="field">
+    <%= f.label :chapter_file, "Загрузить часть" %><br>
+    <%= f.file_field :chapter_file, multiple: true, required: true %>
+  </div>
+  <div class="actions">
+    <%= f.submit 'Загрузить', class: "button" %>
+  </div>
+<% end %>
 

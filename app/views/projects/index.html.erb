@@ -2,7 +2,6 @@
   Projects
 </p>
 
-<%= paginate @projects %>
 <div class="row">
   <ul class="project-list">
     <% @projects.each do |project| %>
@@ -24,3 +23,4 @@
     <% end %>
   </ul>
 </div>
+<%== pagy_nav(@pagy) %>

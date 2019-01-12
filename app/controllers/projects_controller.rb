@@ -1,13 +1,14 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:index, :show, :update]
+  before_action :authenticate_user!, except: [:index, :show]
+
 
   def index
-    @projects = Project.includes(:user).order(:created_at).page params[:page]
+    @pagy, @projects = pagy(Project.includes(:user).order(:created_at))
   end
 
   def show
-    @chapters = @project.chapters
+    @pagy, @chapters = pagy(@project.chapters)
   end
 
   def new

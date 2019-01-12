@@ -6,8 +6,11 @@ class OptionPolicy
     @option = option
   end
 
-  def destroy?
+  def update?
     user.admin? || option.user == user
   end
 
+  def destroy?
+    user.admin? || option.user == user || @option.phrase.chapter.user == user
+  end
 end

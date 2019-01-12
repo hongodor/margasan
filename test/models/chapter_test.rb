@@ -15,8 +15,4 @@ class ChapterTest < ActiveSupport::TestCase
     assert_not @chapter.valid?
   end
 
-  test "name be valid" do
-    @chapter.name = nil
-    assert_not @chapter.valid?
-  end
 end

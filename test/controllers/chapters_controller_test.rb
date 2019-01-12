@@ -6,11 +6,8 @@ class ChaptersControllerTest < ActionDispatch::IntegrationTest
 
   def setup
     @first_chapter = chapters(:chapter_one)
-    file = fixture_file_upload(Rails.root.join('test/fixtures/files', 'test.txt'), 'text/plain')
-    @test_chapter = { name: "test chapter_name",
-                      status: 0,
-                      phrases_count: 40,
-                      chapter_file: file }
+    file = fixture_file_upload(Rails.root.join('test/fixtures/files', 'Map043.json'))
+    @test_chapter = { chapter_file: [file]}
   end
 
   test "should get show" do
@@ -22,11 +19,11 @@ class ChaptersControllerTest < ActionDispatch::IntegrationTest
   test "should create as user" do
     sign_in users(:user)
     assert_difference('Chapter.count') do
-     post project_chapters_path(@first_chapter.project), params: { chapter: @test_chapter}
+     post project_chapters_path(@first_chapter.project), params: { chapter: @test_chapter  }
     end
-    assert_redirected_to chapter_path(Chapter.last)
-    assert_equal "test chapter_name", Chapter.last.name
-    assert_equal "test.txt", Chapter.last.filename
+    assert_redirected_to Chapter.last.project
+    assert_equal "Map043.json", Chapter.last.name
+    assert_equal "Map043.json", Chapter.last.filename
   end
 
   # user is not owner

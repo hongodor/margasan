@@ -5,12 +5,12 @@ chapter_one:
   status: 0
   project: one
   user: user
-  filename: filename.txt
+  filename: filename.json
   completed_phrases_count: 1
 chapter_two:
   name: MyString
   status: 0
   project: two
   user: another
-  filename: filename.txt
+  filename: filename.json
   completed_phrases_count: 1

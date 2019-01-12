@@ -3,14 +3,14 @@ class PhrasesController < ApplicationController
   rescue_from Pundit::NotAuthorizedError, with: :json_user_not_authorized
 
   def update
-    phrase = Phrase.find(params[:phrase_id])
-    option = Option.find(params[:option_id])
-    authorize phrase
-    phrase.translated = option.content
-    if phrase.save
-      render json: option
+    @phrase = Phrase.find(params[:phrase_id])
+    @option = Option.find(params[:option_id])
+    authorize @phrase
+    @phrase.translated = @option.content
+    if @phrase.save
+      render json: @option
     else
-      render json: { errors: phrase.errors.full_messages }
+      render json: { errors: @phrase.errors.full_messages }
     end
   end
 

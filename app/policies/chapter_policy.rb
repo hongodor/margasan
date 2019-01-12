@@ -6,10 +6,6 @@ class ChapterPolicy
     @chapter = chapter
   end
 
-  def create?
-    chapter.project.user == user
-  end
-
   def destroy?
     user.admin? || chapter.user == user
   end

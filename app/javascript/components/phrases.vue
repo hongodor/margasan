@@ -10,49 +10,72 @@
     text-align: left;
     overflow: hidden;
     margin: 0 auto;
+
+
+    table {
+      max-width: 100%;
+      background-color: transparent;
+    }
     .table {
-      margin: 10px;
-      vertical-align: top;
+      margin: 5px 0;
       border-collapse: collapse;
-      border: 1px solid;
-      thead th {
-        padding: 10px;
-        text-transform: uppercase;
-      }
-      td {
-        border: 1px solid;
-        vertical-align: text-top;
-        padding: 0px 10px;
-        .translated {
-          .option {
-            border-bottom: 1px solid #8b8b8b;
-            position: relative;
-            .information {
-              margin: 5px 10px;
-                .pick-action {
-                  border-radius: 3px;
-                  color: #e5eaff;;
-                  text-decoration: none;
-                  background: greenyellow;
-                  box-sizing: border-box;
-                }
-                .delete-action {
-                  text-decoration: none;
-                  background: #e5eaff;
-                  margin-top: 5px;
-                  cursor: pointer;
-                }
-            }
+      border-spacing: 0;
+      border: 1px solid #616161;
+      tbody td {
+        border: 1px solid #616161;
+        vertical-align: top;
+        padding: 0;
+        .chosen {
+          background: darken(#e5eaff, 5%);
+          p {
+            margin: 0 10px;
+            line-height: 0.9em;
+            word-wrap: break-word;
           }
         }
-        .content {
-          padding:6px 8px 0;
-          margin:0;
-          line-height:130%;
-          word-wrap: break-word;
+      }
+      .text {
+        margin: 5px 10px;
+        line-height: 0.9em;
+        word-wrap: break-word;
+      }
+      td.o {
+        width: 40%;
+        max-width: 500px;
+      }
+      td.t {
+        div {
+          border-bottom: 1px solid  #7f7f7f;
+          position: relative;
+          padding-bottom: 7px;
+        }
+        width: 60%;
+        .info {
+          font-size: 17px;
+          margin: 10px;
+          a.pick {
+            background-color: #82d56a;
+            border-radius: 3px;
+            text-decoration: none;
+          }
+          a.delete {
+            background-color: #ff7e76;
+            border-radius: 3px;
+            text-decoration: none;
+          }
+          a:hover {
+            cursor: pointer;
+            text-decoration: underline;
+          }
+        }
+        div.form {
+          margin: 5px 10px;
         }
       }
+      td.t > div:last-child {border-bottom:none;}
     }
+
+
   }
 </style>
 
@@ -86,41 +109,41 @@
         </thead>
         <tbody>
         <tr v-for='(phrase, index) in phrases'>
-          <td>
-            <div class="origin">
-              <p>
-                {{ phrase.original }}
+          <td class="o">
+            <div>
+              <p  class="text">
+                <template v-for="line in phrase.original.split('\n')">
+                {{ line }} <br>
+                </template>
               </p>
             </div>
           </td>
-          <td>
-            <div class="translated">
-              <div class="option">
-                <div v-for="line in  phrase.translated .split('\n')" class="content">
+          <td class="t">
+            <div v-if="phrase.translated !== ''" class="chosen">
+              <p>
+                <template v-for="line in phrase.translated.split('\n')">
                   {{ line }} <br>
-                </div>
-              </div>
-              <div v-for='(option, index2) in phrase.options'>
-                <div class="option">
-                  <div v-for="line in option.content.split('\n')" class="content">
+                </template>
+              </p>
+            </div>
+            <template v-for='(option, index2) in phrase.options'>
+              <div>
+                <p class="text">
+                  <template v-for="line in option.content.split('\n')" >
                     {{ line }} <br>
-                  </div>
-                  <div class="information">
-
-                    <template v-if="chapter.user_id === current_user.id">
-                      <a @click="pickTranslated(option.id, phrase.id)" class="pick-action">Pick</a>
-                    </template>
-                    <template v-if="chapter.user_id === current_user.id || option.user_id === current_user.id">
-                      <a @click="deleteOption(option.id, index, index2)" class="delete-action">Delete</a>
-                    </template>
-                    <a v-bind:href="'/users/'+option.user_id">{{ option.author }}</a>
-                  </div>
-                </div>
+                  </template>
+                </p>
+                <span class="info">
+                  <a v-if="chapter.user_id === current_user.id || current_user.role === 'admin'" @click="pickTranslated(option.id, phrase.id)" class="pick">Pick</a>
+                  <a v-if="chapter.user_id === current_user.id || option.user_id === current_user.id || current_user.role === 'admin'" @click="deleteOption(option.id, index, index2)" class="delete">Delete</a>
+                  <a v-bind:href="'/users/'+option.user_id" class="user">{{ option.author }}</a>
+                  {{ option.created_at}}
+                </span>
               </div>
-              <div class="form">
-                <textarea v-model="phrase.option"></textarea>
-                <button @click="sendOption(phrase.id, index)">Send</button>
-              </div>
+            </template>
+            <div class="form">
+              <textarea v-model="phrase.option"></textarea>
+              <a @click="sendOption(phrase.id, index)">Send</a>
             </div>
           </td>
         </tr>
@@ -128,6 +151,7 @@
       </table>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -172,6 +196,7 @@ export default {
                 .then((res) => { return res.json() })
                 .then((res) => { this.phrases = res })
         },
+        // response from actioncable
         addOption(obj) {
             let opts = this.phrases.find(x => x.id === obj.phrase_id).options.filter(function (item) {
                 return item.user_id === obj.user_id
@@ -182,6 +207,7 @@ export default {
                 this.phrases.find(x => x.id === obj.phrase_id).options.push(obj);
             } else {
                 console.log('option already exist')
+                // replace option
                 this.phrases.find(x => x.id === obj.phrase_id).options.find(x => x.user_id === obj.user_id).content = obj.content
             }
         },
@@ -227,7 +253,7 @@ export default {
             axios.put('/options/'+optionId, {
                 content: this.phrases[index].option
             }).then((res) => {
-
+                //
             }).catch((error) => {
                 console.log(error)
                 this.message(error.response.status, error.response.statusText)
