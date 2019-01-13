@@ -25,11 +25,11 @@ class CreatePhrasesJob < ApplicationJob
       end
     end
     # creating record Phrase.original
+    phrases = []
     all_strings.each do |phrase|
-      transaction do
-      Phrase.create(original: phrase, translated: "", chapter: chapter)
-      end
+      phrases << Phrase.new(original: phrase, chapter: chapter)
     end
+    Phrase.import phrases, validate: false
     chapter.update_attribute(:phrases_count, all_strings.count)
   end
 end
