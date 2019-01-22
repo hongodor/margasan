@@ -1,1 +1,2 @@
-Pagy::VARS[:items] = 2
+require 'pagy/extras/trim'
+Pagy::VARS[:items] = 20

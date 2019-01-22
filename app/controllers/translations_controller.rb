@@ -1,9 +1,11 @@
 class TranslationsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_chapter
 
   def create
+    authorize @chapter
     TranslatePhrasesJob.perform_now(@chapter)
-    redirect_to(@chapter.project)
+    redirect_back fallback_location: @chapter.project
   end
 
 

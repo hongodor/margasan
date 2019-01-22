@@ -4,7 +4,7 @@
   <%= link_to 'Edit', edit_project_path(@project) %>
 </div>
 
-<%== pagy_nav(@pagy) %>
+<%== pagy_nav(@pagy) if @pagy.pages > 1 %>
 <div class="row">
   <h1>Chapters</h1>
   <table class="hover">
@@ -34,7 +34,7 @@
 -->
   <div class="field">
     <%= f.label :chapter_file, "Загрузить часть" %><br>
-    <%= f.file_field :chapter_file, multiple: true, required: true %>
+    <%= f.file_field :chapter_file, multiple: true, required: true, accept: ".json" %>
   </div>
   <div class="actions">
     <%= f.submit 'Загрузить', class: "button" %>

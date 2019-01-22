@@ -8,7 +8,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @pagy, @chapters = pagy(@project.chapters)
+    @pagy, @chapters = pagy(@project.chapters.with_attached_chapter_file)
   end
 
   def new
