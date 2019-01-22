@@ -28,5 +28,10 @@ test:
   username: almalexray
 
 production:
-  <<: *default
-  database: db/production.sqlite3
+  adapter: postgresql
+  encoding: unicode
+  database: margasan_development
+  pool: 5
+  timeout: 5000
+  username: almalexray
+  password:

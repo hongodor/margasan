@@ -23,9 +23,12 @@ gem 'pagy'
 gem 'mini_magick', '~> 4.8'
 gem 'sidekiq', '5.2.3'
 gem 'pundit', git: 'git://github.com/varvet/pundit.git'
-gem 'activerecord-import'
+
+# db
 gem 'pg'
+gem 'mysql2'
 gem 'thinking-sphinx', '~> 4.1'
+gem 'activerecord-import'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
