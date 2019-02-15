@@ -6,7 +6,7 @@
 // All it does is render <div>Hello Vue</div> at the bottom of the page.
 import TurbolinksAdapter from 'vue-turbolinks';
 import Vue from 'vue'
-import App from '../components/phrases.vue'
+import App from '../components/phrases_list/phrases.vue'
 import axios from 'axios'
 
 Vue.use(TurbolinksAdapter);
@@ -17,7 +17,7 @@ Vue.component('modal', {
 
 document.addEventListener('DOMContentLoaded', () => {
   axios.defaults.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-  const el = document.body.appendChild(document.createElement('hello'));
+  const el = document.body.appendChild(document.createElement('app'));
   const element = document.getElementById("chapter-id");
   const props = JSON.parse(element.getAttribute('data'));
   const app = new Vue({

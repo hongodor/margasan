@@ -1,8 +1,9 @@
 class CreatePhrases < ActiveRecord::Migration[5.2]
   def change
     create_table :phrases do |t|
-      t.text :original
-      t.text :translated, default: ""
+      t.string :original
+      t.string :translated, default: ""
+      t.boolean :check, default: false
       t.references :chapter, index: true, foreign_key: true
 
       t.timestamps

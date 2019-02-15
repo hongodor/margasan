@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_18_234752) do
+ActiveRecord::Schema.define(version: 2019_02_02_174533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,8 +51,7 @@ ActiveRecord::Schema.define(version: 2019_01_18_234752) do
   end
 
   create_table "options", force: :cascade do |t|
-    t.text "content"
-    t.boolean "check"
+    t.string "content"
     t.string "author"
     t.bigint "user_id"
     t.bigint "phrase_id"
@@ -63,11 +62,14 @@ ActiveRecord::Schema.define(version: 2019_01_18_234752) do
   end
 
   create_table "phrases", force: :cascade do |t|
-    t.text "original"
-    t.text "translated", default: ""
+    t.string "original"
+    t.string "translated", default: ""
+    t.boolean "check", default: false
     t.bigint "chapter_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "copy", default: 0
+    t.integer "event_id"
     t.index ["chapter_id"], name: "index_phrases_on_chapter_id"
   end
 

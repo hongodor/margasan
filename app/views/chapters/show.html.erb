@@ -1,14 +1,8 @@
-<div class="subheader">
-  <%= link_to @chapter.project.name, @chapter.project, class: 'link' %>
-</div>
 <% if user_signed_in? %>
-<%= javascript_pack_tag 'phrases_table' %>
-<% props = {
-    chapter: @chapter,
-    current_user: current_user
-}.to_json
-%>
-<div id="chapter-id" data="<%= props %>"></div>
+  <%= javascript_pack_tag 'phrases_table' %>
+  <div id="chapter-id" data="<%= { chapter: @chapter,
+                                   current_user: current_user}.to_json %>"></div>
 <% else %>
   <div style="padding-top: 50px;"><%= link_to "Sign in", new_user_session_path %></div>
 <% end %>
+

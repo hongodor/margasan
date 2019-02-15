@@ -1,0 +1,95 @@
+/* RESET */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.header {
+  font-size: 1.5em;
+  text-align: center;
+  letter-spacing: -1px;
+  font-weight: normal;
+}
+.container {
+  text-align: left;
+  overflow: hidden;
+  margin: 40px auto;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.9em;
+  max-width: 1000px;
+  min-width: 420px;
+  table {
+    max-width: 100%;
+    background-color: transparent;
+  }
+  .table {
+    margin: 5px 0;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid #616161;
+    tbody td {
+      border: 1px solid #616161;
+      vertical-align: top;
+      padding: 0;
+      .chosen {
+        padding: 5px 10px;
+        background: darken(#e5eaff, 5%);
+      }
+    }
+    .text {
+      padding: 5px 10px;
+      line-height: 0.9em;
+      word-wrap: break-word;
+    }
+    td.o {
+      width: 40%;
+      max-width: 500px;
+    }
+    td.t {
+      div {
+        border-bottom: 1px solid #7f7f7f;
+        position: relative;
+        padding-bottom: 10px;
+      }
+      .self {
+        background-color: #b5e0ff;
+      }
+      width: 60%;
+      .info {
+        font-size: 17px;
+        margin: 10px;
+        a.pick {
+          background-color: #82d56a;
+          border-radius: 3px;
+          text-decoration: none;
+        }
+        a.delete {
+          background-color: #ff7e76;
+          border-radius: 3px;
+          text-decoration: none;
+        }
+        a:hover {
+          cursor: pointer;
+        }
+      }
+      div.form {
+        margin: 5px 10px;
+        .form-input {
+          width: 80%
+        }
+        .form-send {
+          padding: .3em 1.2em;
+          cursor: pointer;
+          transition: background-color 0.2s;
+          border: 1px solid #ccc;
+          background-color: #f1f1f1;
+          border-radius: 3px;
+          text-decoration: none;
+        }
+      }
+    }
+    td.t > div:last-child {
+      border-bottom: none;
+    }
+  }
+}

@@ -2,21 +2,21 @@ class ChaptersController < ApplicationController
   before_action :authenticate_user!, except: [:show]
 
   def show
-    @chapter = Chapter.includes(phrases: :options).find(params[:id])
+    @chapter = Chapter.includes(phrases: :options).find(params[:id]).as_json(include: { phrases: { include: :options}})
   end
 
   def create
     project = Project.find(params[:project_id])
     authorize project, :update?, policy_class: ProjectPolicy
     chapter_params['chapter_file'].each do |file|
-      chapter = Chapter.new(name: file.original_filename, project: project, user: current_user, filename: file.original_filename)
-      chapter.chapter_file.attach(file)
-      if chapter.save
-        CreatePhrasesJob.perform_now(chapter)
-      else
-        chapter.chapter_file.purge
-        flash[:error] = "Fail"
-        redirect_to project
+      if FileCheckService.create(file.original_filename)
+        chapter = Chapter.new(name: file.original_filename, project: project, user: current_user, filename: file.original_filename)
+        chapter.chapter_file.attach(file)
+          if chapter.save
+            CreatePhrasesJob.perform_now(chapter)
+          else
+            chapter.chapter_file.purge
+          end
       end
     end
     redirect_back fallback_location: project

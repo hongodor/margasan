@@ -5,8 +5,9 @@ Rails.application.routes.draw do
   resources :projects, shallow: true do
     resources :chapters
   end
-  get '/translations(/:id)', to: 'translations#create', as: :generate
-  post '/phrases', to: 'phrases#update'
+  get '/translations/:id', to: 'translations#create', as: :generate
+  put '/phrases/:id', to: 'phrases#update'
+
   resources :options
   resources :users, only: [:index, :show]
 

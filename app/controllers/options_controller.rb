@@ -6,11 +6,10 @@ class OptionsController < ApplicationController
     @option = current_user.options.new(option_params)
     @option.phrase_id = params[:phrase_id]
     @option.author = current_user.username
-    @option.save
     if @option.save
       head 200
     else
-      render json: { errors: option.errors.messages }, status: 422
+      render json: { errors: @option.errors.messages }, status: 422
     end
   end
 
@@ -32,6 +31,6 @@ class OptionsController < ApplicationController
 
   private
   def option_params
-    params.require(:option).permit(:content, :check, :phrase_id)
+    params.require(:option).permit(:content, :phrase_id)
   end
 end
