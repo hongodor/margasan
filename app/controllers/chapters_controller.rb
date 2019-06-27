@@ -9,9 +9,9 @@ class ChaptersController < ApplicationController
     project = Project.find(params[:project_id])
     authorize project, :update?, policy_class: ProjectPolicy
     chapter_params['chapter_file'].each do |file|
-      if FileCheckService.create(file.original_filename)
-        chapter = Chapter.new(name: file.original_filename, project: project, user: current_user, filename: file.original_filename)
-        chapter.chapter_file.attach(file)
+      if file.original_filename =~ /Map\d*.json/
+          chapter = Chapter.new(name: file.original_filename, project: project, user: current_user, filename: file.original_filename)
+          chapter.chapter_file.attach(file)
           if chapter.save
             CreatePhrasesJob.perform_now(chapter)
           else

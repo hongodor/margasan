@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   has_many :projects
   has_many :chapters
-  has_many :options
+  has_many :options, -> { order('created_at DESC').limit(5)  }
   enum role: [:user, :admin]
 
   validates :username, presence: true

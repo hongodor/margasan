@@ -5,7 +5,6 @@ class Phrase < ApplicationRecord
   after_update :refresh_phrase_completed_count
 
 
-  #after_save ThinkingSphinx::RealTime.callback_for(:phrase)
 
   private
 

@@ -1,4 +1,5 @@
-ThinkingSphinx::Index.define :phrase, with: :active_record do
+ThinkingSphinx::Index.define :phrase, with: :real_time do
   indexes original, sortable: true
-  has chapter_id
+  indexes translated
+  has chapter_id,  type: :integer
 end
